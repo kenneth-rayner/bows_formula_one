@@ -3,8 +3,8 @@ package models
 
 import java.time.LocalDateTime
 
-import mongoDateTimeFormats.MongoDateTimeFormats
 import play.api.libs.json._
+import repositories.MongoDateTimeFormats
 
 case class UserSession(_id:String, lastUpdated:LocalDateTime)
 

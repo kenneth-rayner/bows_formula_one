@@ -11,7 +11,7 @@ class MembersSpec extends WordSpec with OptionValues with MustMatchers {
     "Deserialize correctly" in {
 
         val json = Json.obj(
-          "_id" -> card,
+          "_id" -> "id",
           "name" -> "Fred",
           "email" -> "a@b.com",
           "mobileNumber"  -> "07444345",
@@ -42,7 +42,7 @@ class MembersSpec extends WordSpec with OptionValues with MustMatchers {
       )
 
       val expectedJson = Json.obj(
-        "_id" -> card,
+        "_id" -> "id",
         "name" -> "Fred",
         "email" -> "a@b.com",
         "mobileNumber"  -> "07444345",

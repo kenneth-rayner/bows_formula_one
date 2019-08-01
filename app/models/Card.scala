@@ -1,11 +1,14 @@
 package models
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json._
 import play.api.mvc.PathBindable
+
 
 case class Card(_id: String)
 
 object Card {
+  implicit val reads: Reads[Card] = (__ \ "_id").read[String].map(Card(_))
+  implicit val writes: OWrites[Card] = (__ \ "_id").write[String].contramap(_._id)
 
   implicit val pathBindable: PathBindable[Card] = {
     new PathBindable[Card] {
@@ -22,7 +25,10 @@ object Card {
       }
     }
   }
-  implicit lazy val format: OFormat[Card] = Json.format
+
+ // implicit lazy val format: OFormat[Card] = Json.format
+
+
 }
 
 

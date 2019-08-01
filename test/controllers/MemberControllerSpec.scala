@@ -35,7 +35,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
       bind[SessionRepository].toInstance(mockSessionRespository)
     )
 
-private val card = Card("testId")
+  private val card = Card("testId")
 
   "present" must {
 

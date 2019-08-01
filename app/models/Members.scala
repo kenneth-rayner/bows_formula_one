@@ -1,8 +1,8 @@
 
 package models
 
-import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 case class Members(
                     _id: Card,
@@ -15,7 +15,6 @@ case class Members(
 
 
 object Members {
-  //  implicit lazy val format: OFormat[Members] = Json.format
 
   implicit val reads: Reads[Members] = (
     __.read[Card] and
@@ -24,7 +23,7 @@ object Members {
       (__ \ "mobileNumber").read[String] and
       (__ \ "balance").read[Int] and
       (__ \ "securityNumber").read[Int]
-    )(Members.apply _)
+    ) (Members.apply _)
 
   implicit val writes: OWrites[Members] = (
     __.write[Card] and
@@ -33,5 +32,5 @@ object Members {
       (__ \ "mobileNumber").write[String] and
       (__ \ "balance").write[Int] and
       (__ \ "securityNumber").write[Int]
-    )(unlift(Members.unapply))
+    ) (unlift(Members.unapply))
 }

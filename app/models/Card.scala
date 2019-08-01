@@ -25,10 +25,6 @@ object Card {
       }
     }
   }
-
- // implicit lazy val format: OFormat[Card] = Json.format
-
-
 }
 
 

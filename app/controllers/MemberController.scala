@@ -33,7 +33,8 @@ class MemberController @Inject()(cc: ControllerComponents,
             case Some(_) =>
               sessionRepository.deleteSessionById(_id).map(_ => Ok(s"Goodbye ${members.name}"))
             case None =>
-              sessionRepository.createNewSession(UserSession(_id._id, LocalDateTime.now)).map(_ => Ok(s"Hello ${members.name}"))
+              sessionRepository.createNewSession(UserSession(_id._id, LocalDateTime.now))
+                .map(_ => Ok(s"Hello ${members.name}"))
           }
         case None => Future.successful(BadRequest("Please register"))
       } recoverWith {
@@ -89,16 +90,16 @@ class MemberController @Inject()(cc: ControllerComponents,
       }
   }
 
-    def deleteMember(_id: Card) = Action.async {
-      implicit request =>
-        memberRepository.deleteMemberById(_id).map {
-          case Some(_) => Ok("Success")
-          case _ => NotFound("Member not found")
-        } recoverWith {
-          case e =>
-            Future.successful(BadRequest(s"Something has gone wrong with the following exception: $e"))
-        }
-    }
+  def deleteMember(_id: Card) = Action.async {
+    implicit request =>
+      memberRepository.deleteMemberById(_id).map {
+        case Some(_) => Ok("Success")
+        case _ => NotFound("Member not found")
+      } recoverWith {
+        case e =>
+          Future.successful(BadRequest(s"Something has gone wrong with the following exception: $e"))
+      }
+  }
 
   //POST
   def updateMemberName(_id: Card, newData: String): Action[AnyContent] = Action.async {

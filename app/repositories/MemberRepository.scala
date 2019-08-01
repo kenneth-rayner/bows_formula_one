@@ -20,7 +20,7 @@ class MemberRepository @Inject()(cc: ControllerComponents,
                                  mongo: ReactiveMongoApi)
                                 (implicit ec: ExecutionContext) extends AbstractController(cc) {
 
-  private def memberCollection: Future[JSONCollection] = {
+  private val memberCollection: Future[JSONCollection] = {
     mongo.database.map(_.collection[JSONCollection]("members"))
   }
 

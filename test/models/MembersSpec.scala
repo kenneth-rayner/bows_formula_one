@@ -32,7 +32,7 @@ class MembersSpec extends WordSpec with OptionValues with MustMatchers {
     }
     "Serialize correctly" in {
 
-      val test:JsValue = Json.parse(
+      val test: JsValue = Json.parse(
         s"""
            |{
            | "_id" : "1",
@@ -53,7 +53,7 @@ class MembersSpec extends WordSpec with OptionValues with MustMatchers {
         123,
         123
       )
-      Json.toJson[Members](blah)mustBe test
+      Json.toJson[Members](blah) mustBe test
     }
   }
 }

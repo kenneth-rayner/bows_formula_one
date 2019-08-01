@@ -13,15 +13,15 @@ import reactivemongo.play.json.collection.{JSONCollection, _}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SessionRepository @Inject()(mongo:ReactiveMongoApi,config: Configuration,
+class SessionRepository @Inject()(mongo: ReactiveMongoApi, config: Configuration,
                                   memberRepository: MemberRepository)(implicit ec: ExecutionContext) {
 
-  private def sessionCollection: Future[JSONCollection] =
+  private val sessionCollection: Future[JSONCollection] =
     mongo.database.map(_.collection[JSONCollection]("session"))
 
   val ttl: Int = config.get[Int]("session.ttl")
 
-  private val index = Index(
+  private val index: Index = Index(
     key = Seq("lastUpdated" -> IndexType.Ascending),
     name = Some("session-index"),
     options = BSONDocument("expireAfterSeconds" -> ttl)
@@ -29,7 +29,7 @@ class SessionRepository @Inject()(mongo:ReactiveMongoApi,config: Configuration,
   sessionCollection.map(_.indexesManager.ensure(index))
 
 
-  def createNewSession(session: UserSession) = {
+  def createNewSession(session: UserSession): Future[WriteResult] = {
 
     sessionCollection.flatMap(
       _.insert.one(session))

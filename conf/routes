@@ -11,9 +11,13 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET   /present/:_id                       controllers.MemberController.present(_id:Card)
 GET   /getMember/:_id                     controllers.MemberController.getMemberById(_id:Card)
-GET   /getBalance/:_id                    controllers.MemberController.getBalance(_id:Card)
 
 POST  /addNewMember                       controllers.MemberController.addNewMember
+
+
+
+GET   /getBalance/:_id                    controllers.MemberController.getBalance(_id:Card)
+
 POST  /deleteMember/:_id                  controllers.MemberController.deleteMember(_id:Card)
 POST  /updateName/:_id/:newData           controllers.MemberController.updateMemberName(_id:Card,newData:String)
 POST  /increaseBalance/:_id/:increase     controllers.MemberController.increaseBalance(_id:Card, increase:Int)

@@ -1,7 +1,9 @@
 package models
 
+import models.Card.pathBindable
 import org.scalatest.{FreeSpec, MustMatchers, OptionValues, WordSpec}
 import play.api.libs.json.Json
+import play.api.mvc.PathBindable
 
 class CardSpec extends WordSpec with OptionValues with MustMatchers {
 
@@ -27,6 +29,18 @@ class CardSpec extends WordSpec with OptionValues with MustMatchers {
         "_id" -> validCard
       )
       json.as[Card] mustEqual expectedCardId
+    }
+    "return 'Invalid card id' if _id does not match regex" in {
+
+      val invalidCard = "!dssfd123"
+      val result = "Invalid Card Id"
+
+      pathBindable.bind("", invalidCard) mustBe Left(result)
+
+    }
+    "return a string" in {
+
+      pathBindable.unbind("", Card("testId")) mustEqual "testId"
     }
   }
 }

@@ -1,9 +1,8 @@
 package models
 
 import models.Card.pathBindable
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues, WordSpec}
+import org.scalatest.{MustMatchers, OptionValues, WordSpec}
 import play.api.libs.json.Json
-import play.api.mvc.PathBindable
 
 class CardSpec extends WordSpec with OptionValues with MustMatchers {
 

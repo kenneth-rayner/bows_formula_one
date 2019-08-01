@@ -102,7 +102,7 @@ class MemberController @Inject()(cc: ControllerComponents,
       memberRepository.updateName(_id, newData).map {
 
         case Some(member) =>
-          Ok(s"Success! updated Member with id ${member._id}'s name to $newData")
+          Ok(s"Success! updated Member with id ${member._id._id}'s name to $newData")
         case _ =>
           NotFound("No Member with that id exists in records")
       } recoverWith {

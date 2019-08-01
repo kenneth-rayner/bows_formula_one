@@ -35,12 +35,13 @@ class MemberControllerSpec extends WordSpec with MustMatchers
       bind[SessionRepository].toInstance(mockSessionRespository)
     )
 
+private val card = Card("testId")
 
   "present" must {
 
     "return ok and delete session if one already exists" in {
       when(mockMemberRespository.getMemberById(any()))
-        .thenReturn(Future.successful(Some(Members("testId", "testName", "testEmail", "testMobile", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "testName", "testEmail", "testMobile", 123, 123))))
 
       when(mockSessionRespository.getSession(any()))
         .thenReturn(Future.successful(Some(UserSession("testId", LocalDateTime.now))))
@@ -62,7 +63,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
 
     "return ok and create new session if none exist" in {
       when(mockMemberRespository.getMemberById(any()))
-        .thenReturn(Future.successful(Some(Members("testId", "testName", "testEmail", "testMobile", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "testName", "testEmail", "testMobile", 123, 123))))
 
       when(mockSessionRespository.getSession(any()))
         .thenReturn(Future.successful(None))
@@ -133,7 +134,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
     "getmemberById" must {
       "return ok and members details" in {
         when(mockMemberRespository.getMemberById(any()))
-          .thenReturn(Future.successful(Some(Members("testId", "testName", "testEmail", "testMobile", 123, 123))))
+          .thenReturn(Future.successful(Some(Members(card, "testName", "testEmail", "testMobile", 123, 123))))
         val app: Application = builder.build()
 
         val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest(GET, routes.MemberController.getMemberById(Card("testId")).url)
@@ -143,8 +144,9 @@ class MemberControllerSpec extends WordSpec with MustMatchers
         status(result) mustBe OK
         contentAsString(result) must contain
         """{
-            "_id":"testId","name":testName,"email":"testEmail",
+            "_id":card,"name":testName,"email":"testEmail",
             "mobileNumber":"testMobile","balance":123,"securityNumber":123}""".stripMargin
+
 
         app.stop
       }
@@ -185,7 +187,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
       "return correct balance and status ok when correct request input" in {
 
         when(mockMemberRespository.getMemberById(any()))
-          .thenReturn(Future.successful(Some(Members("testId", "testName", "testEmail", "testMobile", 123, 123))))
+          .thenReturn(Future.successful(Some(Members(card, "testName", "testEmail", "testMobile", 123, 123))))
 
         val app: Application = builder.build()
 
@@ -209,7 +211,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
         when(mockMemberRespository.addNewMember(any()))
           .thenReturn(Future.successful(UpdateWriteResult.apply(ok = true, 1, 1, Seq.empty, Seq.empty, None, None, None)))
 
-        val membersJson: JsValue = Json.toJson(Members("test", "test", "test", "test", 123, 123))
+        val membersJson: JsValue = Json.toJson(Members(card, "test", "test", "test", 123, 123))
 
         val app: Application = builder.build()
 
@@ -254,7 +256,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
             override def message: String = "Duplicate key"
           }))
 
-        val membersJson: JsValue = Json.toJson(Members("test", "test", "test", "test", 123, 123))
+        val membersJson: JsValue = Json.toJson(Members(card, "test", "test", "test", 123, 123))
 
         val app: Application = builder.build()
 
@@ -275,7 +277,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
         when(mockMemberRespository.addNewMember(any()))
           .thenReturn(Future.failed(new Exception))
 
-        val membersJson: JsValue = Json.toJson(Members("test", "test", "test", "test", 123, 123))
+        val membersJson: JsValue = Json.toJson(Members(card, "test", "test", "test", 123, 123))
 
         val app: Application = builder.build()
 
@@ -296,7 +298,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
       "Return Ok and correct error message when valid data is input" in {
         when(mockMemberRespository.deleteMemberById(any()))
           .thenReturn(Future.successful(Some(Json.obj(
-            "_id" -> "testId",
+            "_id" -> card,
             "name" -> "testName",
             "email" -> "testEmail",
             "mobileNumber" -> "testNumber",
@@ -355,7 +357,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
     "return 'success if valid data is input" in {
 
       when(mockMemberRespository.increaseBalance(any, any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
       val app: Application = builder.build()
 
@@ -403,10 +405,10 @@ class MemberControllerSpec extends WordSpec with MustMatchers
     "return 'success if valid data is input" in {
 
       when(mockMemberRespository.decreaseBalance(any, any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
       when(mockMemberRespository.getMemberById(any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
 
       val app: Application = builder.build()
@@ -424,10 +426,10 @@ class MemberControllerSpec extends WordSpec with MustMatchers
     "return correct error message if decrease is higher than balance data is input" in {
 
       when(mockMemberRespository.getMemberById(any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
       when(mockMemberRespository.decreaseBalance(any, any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
       val app: Application = builder.build()
 
@@ -443,7 +445,7 @@ class MemberControllerSpec extends WordSpec with MustMatchers
 
     "return correct error message and status if member not found" in {
       when(mockMemberRespository.getMemberById(any))
-        .thenReturn(Future.successful(Some(Members("testId", "test", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "test", "test", "test", 123, 123))))
 
       when(mockMemberRespository.getMemberById(Card("dftgyh")))
         .thenReturn(Future.successful(None))
@@ -464,10 +466,10 @@ class MemberControllerSpec extends WordSpec with MustMatchers
     "return success and correct status" in {
 
       when(mockMemberRespository.updateName(any, any))
-        .thenReturn(Future.successful(Some(Members("testId", "testName", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "testName", "test", "test", 123, 123))))
 
       when(mockMemberRespository.getMemberById(any))
-        .thenReturn(Future.successful(Some(Members("testId", "testName", "test", "test", 123, 123))))
+        .thenReturn(Future.successful(Some(Members(card, "testName", "test", "test", 123, 123))))
 
 
       val app: Application = builder.build()

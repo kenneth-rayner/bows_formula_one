@@ -3,7 +3,7 @@ package models
 
 import play.api.libs.json._
 
-case class Members(_id: String, name: String, email: String, mobileNumber: String, balance: Int, securityNumber: Int)
+case class Members(_id: Card, name: String, email: String, mobileNumber: String, balance: Int, securityNumber: Int)
 
 
 object Members {

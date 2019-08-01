@@ -5,55 +5,53 @@ import play.api.libs.json.{JsValue, Json}
 
 class MembersSpec extends WordSpec with OptionValues with MustMatchers {
 
-  "Player" must {
+  val  card: Card = Card("id")
+
+  "Member" must {
     "Deserialize correctly" in {
 
-      val test = Json.parse(
-        """
-          |{
-          | "_id" : "1",
-          | "name": "Test",
-          | "email": "Test@Test.com",
-          | "mobileNumber": "123456",
-          | "balance": 123,
-          | "securityNumber": 123
-          |}
-        """.stripMargin
-      )
+        val json = Json.obj(
+          "_id" -> card,
+          "name" -> "Fred",
+          "email" -> "a@b.com",
+          "mobileNumber"  -> "07444345",
+          "balance" -> 10000,
+          "securityNumber" -> 1234
+        )
 
-      test.as[Members] mustBe Members(
-        _id = "1",
-        name = "Test",
-        email = "Test@Test.com",
-        mobileNumber = "123456",
-        balance = 123,
-        securityNumber = 123
+      val expectedMember = Members(
+        _id = card,
+        name = "Fred",
+        email = "a@b.com",
+        mobileNumber ="07444345",
+        balance =10000,
+        securityNumber = 1234
+
       )
+      json.as[Members]mustEqual expectedMember
+
     }
     "Serialize correctly" in {
-
-      val test: JsValue = Json.parse(
-        s"""
-           |{
-           | "_id" : "1",
-           | "name": "Test",
-           | "email": "Test@Test.com",
-           | "mobileNumber": "123456",
-           | "balance": 123,
-           | "securityNumber": 123
-           |}
-        """.stripMargin
+      val member = Members(
+        _id = card,
+        name = "Fred",
+        email = "a@b.com",
+        mobileNumber ="07444345",
+        balance =10000,
+        securityNumber = 1234
       )
 
-      val blah = Members(
-        "1",
-        "Test",
-        "Test@Test.com",
-        "123456",
-        123,
-        123
+      val expectedJson = Json.obj(
+        "_id" -> card,
+        "name" -> "Fred",
+        "email" -> "a@b.com",
+        "mobileNumber"  -> "07444345",
+        "balance" -> 10000,
+        "securityNumber" -> 1234
+
+
       )
-      Json.toJson[Members](blah) mustBe test
+      Json.toJson(member) mustBe expectedJson
     }
   }
 }

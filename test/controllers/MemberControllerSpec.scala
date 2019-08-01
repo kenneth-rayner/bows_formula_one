@@ -171,7 +171,8 @@ class MemberControllerSpec extends WordSpec with MustMatchers
 
         val app: Application = builder.build()
 
-        val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest(GET, routes.MemberController.getBalance(Card("testId")).url)
+        val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest(GET, routes.MemberController.getBalance
+        (Card("testId")).url)
 
         val result: Future[Result] = route(app, request).value
 
@@ -188,7 +189,8 @@ class MemberControllerSpec extends WordSpec with MustMatchers
 
         val app: Application = builder.build()
 
-        val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest(GET, routes.MemberController.getBalance(Card("testId")).url)
+        val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest(GET, routes.MemberController
+          .getBalance(Card("testId")).url)
 
         val result: Future[Result] = route(app, request).value
 

@@ -4,8 +4,8 @@ package controllers.repositories
 import javax.inject.Inject
 import models.{Card, Members}
 import play.api.Configuration
-import play.api.libs.json.{JsObject, JsResultException, Json}
-import play.api.mvc.{AbstractController, ControllerComponents, _}
+import play.api.libs.json.{JsObject, Json}
+import play.api.mvc.{AbstractController, ControllerComponents}
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.WriteConcern
 import reactivemongo.api.commands.{FindAndModifyCommand, WriteResult}

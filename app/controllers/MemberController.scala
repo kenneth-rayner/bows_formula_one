@@ -1,21 +1,16 @@
 package controllers
 
-import java.io.FileNotFoundException
 import java.time.LocalDateTime
-import java.util.concurrent.ExecutionException
 
+import controllers.repositories.{MemberRepository, SessionRepository}
 import javax.inject.Inject
 import models.{Card, Members, UserSession}
 import play.api.Configuration
-import play.api.libs.json.{JsObject, JsResultException, JsValue, Json, JsonValidationError}
+import play.api.libs.json.{JsResultException, JsValue, Json}
 import play.api.mvc._
-import reactivemongo.api.WriteConcern
-import reactivemongo.api.indexes.{Index, IndexType}
-import reactivemongo.bson.BSONDocument
 import reactivemongo.core.errors.DatabaseException
-import repositories.{MemberRepository, SessionRepository}
 
-import scala.concurrent.{ExecutionContext, ExecutionException, Future}
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
 class MemberController @Inject()(cc: ControllerComponents,

@@ -29,8 +29,12 @@ class MemberController @Inject()(cc: ControllerComponents,
               sessionRepository.deleteSessionById(_id).map(_ => Ok(s"Goodbye ${members.name}"))
             case None =>
               sessionRepository.createNewSession(UserSession(_id._id, LocalDateTime.now))
+
+
                 .map(_ => Ok(s"Hello ${members.name}"))
+
           }
+
         case None => Future.successful(BadRequest("Please register"))
       } recoverWith {
         case _: JsResultException =>

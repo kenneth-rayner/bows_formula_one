@@ -26,6 +26,7 @@ class SessionRepository @Inject()(mongo: ReactiveMongoApi, config: Configuration
     name = Some("session-index"),
     options = BSONDocument("expireAfterSeconds" -> ttl)
   )
+
   sessionCollection.map(_.indexesManager.ensure(index))
 
 
